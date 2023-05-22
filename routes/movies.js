@@ -1,9 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 const moviesRouter = require('express').Router(); // создали роутер
-
-const { URL_CHECK } = require('../utils/isUrl');
-
 const { createMovie, getMovies, deleteMovie } = require('../controllers/movies');
+const { URL_CHECK } = require('../utils/isUrl');
 
 // создаёт фильм
 moviesRouter.post('/movies', celebrate({

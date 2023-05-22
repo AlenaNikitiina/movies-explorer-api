@@ -3,38 +3,33 @@ const jwt = require('jsonwebtoken'); // импортируем модуль json
 const mongoose = require('mongoose');
 
 const User = require('../models/user'); // модель
-const NotFoundError = require('../errors/NotFoundError'); // 404
 const BadRequestError = require('../errors/BadRequestError'); // 400
+const NotFoundError = require('../errors/NotFoundError'); // 404
 const ConflictError = require('../errors/ConflictError'); // 409
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// создаёт пользователя.  POST('/users', createUser) содержит body
+// создаёт пользователя.  POST('/users', createUser)
 const createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name, email, password,
   } = req.body;
 
   // хешируем пароль
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
-      about,
-      avatar,
       email,
       password: hash, // записываем хеш в базу. преобразование данных в строку
     }))
     .then((user) => {
       res.status(201).send({
         name: user.name,
-        about: user.about,
-        avatar: user.avatar,
         email: user.email,
       });
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-      // if (error.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
       } else if (error.code === 11000 && error.name === 'MongoServerError') {
         next(new ConflictError('Пользователь с такими данными уже существует.'));
@@ -44,9 +39,8 @@ const createUser = (req, res, next) => {
     });
 };
 
-// возвращает текущего пользователя  GET('users/me')
+// возвращает текущего пользователя    GET('users/me')
 const getCurrentUserMe = (req, res, next) => {
-  // console.log('getCurrentUserMe: ', req);
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь по указанному _id не найден');

@@ -2,7 +2,7 @@ const router = require('express').Router(); // создали роутер
 const { celebrate, Joi } = require('celebrate'); // ошибки библиотека для валидации данных
 
 const usersRouter = require('./users');
-const cardsRouter = require('./cards');
+const moviesRouter = require('./movies');
 
 const { createUser, login } = require('../controllers/users');
 const auth = require('../middlewares/auth');
@@ -33,7 +33,7 @@ router.post('/signup', celebrate({
 
 router.use(auth); // ниже все будут защищены авторизацией
 router.use('/', usersRouter); // запускаем. передали ф своим обработчикам запроса
-router.use('/', cardsRouter);
+router.use('/', moviesRouter);
 // неизвестного маршрута
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Несуществующая страница.'));
