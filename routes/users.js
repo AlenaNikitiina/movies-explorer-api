@@ -1,6 +1,33 @@
 // это файл маршрутa user, сюда приходят запросы от пользователей
 const usersRouter = require('express').Router(); // создали роутер
 const { celebrate, Joi } = require('celebrate');
+// const { URL_CHECK } = require('../utils/isUrl');s
+const { updateUser, getCurrentUserMe } = require('../controllers/users');
+
+usersRouter.get('/users/me', getCurrentUserMe); // роут возвращает инфу о текущем пользователе
+
+/* dont need
+// возвращает пользователя по _id
+usersRouter.get('/users/:userId', celebrate({
+  params: Joi.object().keys({
+    userId: Joi.string().length(24).hex().required(),
+  }),
+}), getUser); */
+
+// обновляет профиль
+usersRouter.patch('/users/me', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).required(),
+    about: Joi.string().min(2).max(30).required(),
+  }),
+}), updateUser); // updateUserValidator
+
+module.exports = usersRouter;
+
+/*
+// это файл маршрутa user, сюда приходят запросы от пользователей
+const usersRouter = require('express').Router(); // создали роутер
+const { celebrate, Joi } = require('celebrate');
 // const { URL_CHECK } = require('../utils/isUrl');
 
 const {
@@ -27,3 +54,4 @@ usersRouter.patch('/users/me', celebrate({
 }), updateUser);
 
 module.exports = usersRouter;
+*/

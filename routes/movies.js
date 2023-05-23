@@ -18,7 +18,7 @@ moviesRouter.post('/movies', celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
-}), createMovie);
+}), createMovie); // createMovieValidator
 
 // возвращает все фильмы
 moviesRouter.get('/movies', getMovies);
@@ -28,6 +28,6 @@ moviesRouter.delete('/movie/:movieId', celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24).required(),
   }),
-}), deleteMovie);
+}), deleteMovie); // deleteMovieValidator
 
 module.exports = moviesRouter;

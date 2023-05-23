@@ -5,7 +5,7 @@ const usersRouter = require('./users');
 const moviesRouter = require('./movies');
 
 const { createUser, login } = require('../controllers/users');
-const auth = require('../middlewares/auth');
+// const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/NotFoundError'); // 404
 
 const { URL_CHECK } = require('../utils/isUrl');
@@ -18,7 +18,7 @@ router.post('/signin', celebrate({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(2),
   }),
-}), login);
+}), login); // siginValidator
 
 // роут для регистрации
 router.post('/signup', celebrate({
@@ -29,9 +29,10 @@ router.post('/signup', celebrate({
     about: Joi.string().min(2).max(30),
     avatar: Joi.string().regex(URL_CHECK),
   }),
-}), createUser);
+}), createUser); // sigupValidator
 
-router.use(auth); // ниже все будут защищены авторизацией
+// router.use(auth); // ниже все будут защищены авторизацией
+
 router.use('/', usersRouter); // запускаем. передали ф своим обработчикам запроса
 router.use('/', moviesRouter);
 // неизвестного маршрута
