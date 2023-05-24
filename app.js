@@ -25,11 +25,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger); // подключаем логгер запросов
 
-app.get('/crash-test', () => {
+/* app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
-});
+}); */
 
 app.use(router); // Здесь роутинг всех
 
@@ -41,7 +41,7 @@ app.use(handleErrors); // централизованный обработчик 
 // подключаемся к серверу mongo
 // mongoose.connect(SERVER_ADDRESS)
 
-mongoose.connect('mongodb://127.0.0.1/mestodb')
+mongoose.connect('mongodb://127.0.0.1/diploma') // адрес сервера mongo по умолчанию и дальше имя моей бд
   .then(() => console.log('Успешное подключение к MongoDB'))
   .catch((error) => console.error('Ошибка подключения:', error));
 

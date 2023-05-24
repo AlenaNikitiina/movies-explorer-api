@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "diploma",
   "author": "Alena Nikitina",
   "version": "0.1.0",
-  "description": "Learning backend",
+  "description": "diploma project",
   "main": "app.js",
   "private": true,
   "dependencies": {

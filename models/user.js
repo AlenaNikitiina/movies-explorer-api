@@ -7,7 +7,8 @@ const UnauthorizedError = require('../errors/UnauthorizedError'); // 401
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: 'ТNinj',
+    default: 'Nik',
+    require: true,
     minLength: [2, 'Минимальная длина поля "name" - 2'],
     maxLength: 30,
   },
@@ -54,8 +55,6 @@ userSchema.statics.findUserByCredentials = function (email, password) {
 // которому передадим на вход email. Метод findOne принадлежит модели User
 // поэтому обратимся к нему через ключевое слово this: (не должна быть стрелочной
 
-// module.exports = mongoose.model('User', userSchema); или так
-// const User = mongoose.model('User', userSchema); перестало работать
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;

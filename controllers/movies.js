@@ -7,7 +7,9 @@ const OwnerError = require('../errors/OwnerError'); // 403
 
 // создаёт фильм.  POST /movies
 const createMovie = (req, res, next) => {
+  console.log('1 createMovie: start:', req.user._id);
   const owner = req.user._id;
+  console.log('2 createMovie: owner=', owner);
 
   const {
     country,
@@ -16,11 +18,11 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
-    nameRU,
-    nameEN,
+    trailerLink,
     thumbnail,
     movieId,
+    nameRU,
+    nameEN,
   } = req.body;
 
   Movies.create({
@@ -30,12 +32,12 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
+    thumbnail,
+    owner,
+    movieId,
     nameRU,
     nameEN,
-    thumbnail,
-    movieId,
-    owner,
   })
     .then((movie) => res.status(201).send(movie))
     .catch((error) => {

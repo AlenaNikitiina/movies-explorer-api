@@ -9,7 +9,8 @@ const ConflictError = require('../errors/ConflictError'); // 409
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// создаёт пользователя.  POST('/users', createUser)
+// создаёт пользователя.  POST('/users', createUser) old
+// создаёт пользователя с переданными в теле email, password и name  POST /signup
 const createUser = (req, res, next) => {
   const {
     name, email, password,
@@ -39,11 +40,12 @@ const createUser = (req, res, next) => {
     });
 };
 
-// возвращает текущего пользователя    GET('users/me')
+// возвращает информацию о пользователе (email и имя).  GET /users/me
 const getCurrentUserMe = (req, res, next) => {
+  console.log('getCurrentUserMe', req.user);
   User.findById(req.user._id)
     .orFail(() => {
-      throw new NotFoundError('Пользователь по указанному _id не найден');
+      throw new NotFoundError('Пользователь не найден');
     })
     .then((user) => {
       res.send(user);
@@ -51,6 +53,7 @@ const getCurrentUserMe = (req, res, next) => {
     .catch(next);
 };
 
+/* наверно не надо
 // возвращает пользователя по _id.  GET('/users/:id', getUser)
 const getUser = (req, res, next) => {
   User.findById(req.params.userId)
@@ -68,16 +71,9 @@ const getUser = (req, res, next) => {
         next(error);
       }
     });
-};
+}; */
 
-// возвращает всех пользователей.  GET('/users', getUsers)
-const getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch(next);
-};
-
-// обновляет профиль (имя,о себе)  PATCH /users/me
+// обновляет информацию о пользователе (email и имя).  PATCH /users/me
 const updateUser = (req, res, next) => {
   const { name, email } = req.body;
 
@@ -85,7 +81,7 @@ const updateUser = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Пользователь с некорректным id');
     })
-    .then((users) => res.send(users))
+    .then((user) => res.send(user))
     .catch((error) => {
       // console.log("name error:", error.name, ", code:", error.statusCode);
       if (error instanceof mongoose.Error.ValidationError) {
@@ -96,8 +92,7 @@ const updateUser = (req, res, next) => {
     });
 };
 
-// Создаём контроллер аутентификации
-// Если почта и пароль совпадают с теми, что есть в базе, чел входит на сайт
+// проверяет переданные в теле почту и пароль и если совпадает в бд возвр JWT.  POST /signin
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -111,7 +106,15 @@ const login = (req, res, next) => {
     });
 };
 
-//
 module.exports = {
-  createUser, getUser, getUsers, updateUser, login, getCurrentUserMe,
+  createUser, updateUser, login, getCurrentUserMe,
 };
+
+/*
+// возвращает всех пользователей.  GET('/users', getUsers)
+const getUsers = (req, res, next) => {
+  User.find({})
+    .then((users) => res.status(200).send(users))
+    .catch(next);
+};
+*/

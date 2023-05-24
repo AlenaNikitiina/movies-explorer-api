@@ -1,35 +1,19 @@
 const router = require('express').Router(); // создали роутер
-const { celebrate, Joi } = require('celebrate'); // ошибки библиотека для валидации данных
-
 const usersRouter = require('./users');
 const moviesRouter = require('./movies');
 
 const { createUser, login } = require('../controllers/users');
+const { siginValidator, sigupValidator } = require('../middlewares/routesValidation');
 // const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/NotFoundError'); // 404
-
-const { URL_CHECK } = require('../utils/isUrl');
 
 // // Здесь роутинг :
 
 // роут для логина
-router.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(2),
-  }),
-}), login); // siginValidator
+router.post('/signin', siginValidator, login);
 
 // роут для регистрации
-router.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(2),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(URL_CHECK),
-  }),
-}), createUser); // sigupValidator
+router.post('/signup', sigupValidator, createUser);
 
 // router.use(auth); // ниже все будут защищены авторизацией
 
