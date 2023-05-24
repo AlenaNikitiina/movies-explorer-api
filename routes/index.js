@@ -4,7 +4,7 @@ const moviesRouter = require('./movies');
 
 const { createUser, login } = require('../controllers/users');
 const { siginValidator, sigupValidator } = require('../middlewares/routesValidation');
-// const auth = require('../middlewares/auth');
+const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/NotFoundError'); // 404
 
 // // Здесь роутинг :
@@ -15,7 +15,7 @@ router.post('/signin', siginValidator, login);
 // роут для регистрации
 router.post('/signup', sigupValidator, createUser);
 
-// router.use(auth); // ниже все будут защищены авторизацией
+router.use(auth); // ниже все будут защищены авторизацией
 
 router.use('/', usersRouter); // запускаем. передали ф своим обработчикам запроса
 router.use('/', moviesRouter);

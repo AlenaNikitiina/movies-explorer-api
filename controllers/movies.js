@@ -7,9 +7,7 @@ const OwnerError = require('../errors/OwnerError'); // 403
 
 // создаёт фильм.  POST /movies
 const createMovie = (req, res, next) => {
-  console.log('1 createMovie: start:', req.user._id);
   const owner = req.user._id;
-  console.log('2 createMovie: owner=', owner);
 
   const {
     country,
@@ -49,7 +47,6 @@ const createMovie = (req, res, next) => {
     });
 };
 
-// недоделано
 // возвращает все сохранённые текущим пользователем фильмы.  GET /movies
 const getMovies = (req, res, next) => {
   Movies.find({})
@@ -62,6 +59,7 @@ const getMovies = (req, res, next) => {
 // недоделано
 // удаляет фильм по идентификатору.  DELETE /cards/:cardId  DELETE /movies/:movieId
 const deleteMovie = (req, res, next) => {
+  console.log('11', req.params.movieId, req.user);
   Movies.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {

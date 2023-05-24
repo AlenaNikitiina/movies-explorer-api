@@ -42,7 +42,7 @@ const createUser = (req, res, next) => {
 
 // возвращает информацию о пользователе (email и имя).  GET /users/me
 const getCurrentUserMe = (req, res, next) => {
-  console.log('getCurrentUserMe', req.user);
+  // console.log('getCurrentUserMe', req.user);
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
