@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const { errors } = require('celebrate'); // будет обрабатывать ток ошибки, которые сгенерировал celebrate
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -17,7 +18,9 @@ const router = require('./routes/index'); // тут все роуты
 
 // создаем приложение
 const app = express();
+
 app.use(cors());
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -61,7 +61,7 @@ const getMovies = (req, res, next) => {
 // недоделано ?????????????????
 // удаляет фильм по идентификатору.  DELETE /cards/:cardId  DELETE /movies/:movieId
 const deleteMovie = (req, res, next) => {
-  console.log('12', req.params.movieId, req.user);
+  // console.log('12', req.params.movieId, req.user);
   Movies.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
