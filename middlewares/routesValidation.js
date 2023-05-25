@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate'); // ошибки библиотека для валидации данных
-const { URL_CHECK } = require('../utils/isUrl');
+const { URL_CHECK } = require('../utils/constans');
 
 module.exports.sigupValidator = celebrate({
   body: Joi.object().keys({

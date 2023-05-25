@@ -9,6 +9,6 @@ moviesRouter.post('/movies', createMovieValidator, createMovie);
 moviesRouter.get('/movies', getMovies);
 
 // удаляет сохранённый фильм по id
-moviesRouter.delete('/movie/:movieId', deleteMovieValidator, deleteMovie);
+moviesRouter.delete('/movies/:movieId', deleteMovieValidator, deleteMovie);
 
 module.exports = moviesRouter;

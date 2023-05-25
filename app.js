@@ -10,9 +10,8 @@ const { errors } = require('celebrate'); // будет обрабатывать 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handleErrors');
 
-// const { PORT, SERVER_ADDRESS } = require('./config');
 const { PORT = 3000 } = process.env;
-// const { SERVER_ADDRESS } = process.env;
+const { BD_ADDRESS } = process.env;
 
 const router = require('./routes/index'); // тут все роуты
 
@@ -39,9 +38,7 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(handleErrors); // централизованный обработчик ошибок
 
 // подключаемся к серверу mongo
-// mongoose.connect(SERVER_ADDRESS)
-
-mongoose.connect('mongodb://127.0.0.1/diploma') // адрес сервера mongo по умолчанию и дальше имя моей бд
+mongoose.connect(BD_ADDRESS) // адрес сервера
   .then(() => console.log('Успешное подключение к MongoDB'))
   .catch((error) => console.error('Ошибка подключения:', error));
 

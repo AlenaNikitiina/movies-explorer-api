@@ -6,6 +6,7 @@ const User = require('../models/user'); // модель
 const BadRequestError = require('../errors/BadRequestError'); // 400
 const NotFoundError = require('../errors/NotFoundError'); // 404
 const ConflictError = require('../errors/ConflictError'); // 409
+const { errorMessage } = require('../utils/constans');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -31,9 +32,9 @@ const createUser = (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
+        next(new BadRequestError(errorMessage.INCORRECT_MOVIE_DATA));
       } else if (error.code === 11000 && error.name === 'MongoServerError') {
-        next(new ConflictError('Пользователь с такими данными уже существует.'));
+        next(new ConflictError(errorMessage.MOVIE_CONFLICT));
       } else {
         next(error);
       }
@@ -45,7 +46,7 @@ const getCurrentUserMe = (req, res, next) => {
   // console.log('getCurrentUserMe', req.user);
   User.findById(req.user._id)
     .orFail(() => {
-      throw new NotFoundError('Пользователь не найден');
+      throw new NotFoundError(errorMessage.USER_NOT_FOUND);
     })
     .then((user) => {
       res.send(user);
@@ -79,13 +80,13 @@ const updateUser = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .orFail(() => {
-      throw new NotFoundError('Пользователь с некорректным id');
+      throw new NotFoundError(errorMessage.ID_INCORRECT);
     })
     .then((user) => res.send(user))
     .catch((error) => {
       // console.log("name error:", error.name, ", code:", error.statusCode);
       if (error instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
+        next(new BadRequestError(errorMessage.INCORRECT_DATA));
       } else {
         next(error);
       }
@@ -109,12 +110,3 @@ const login = (req, res, next) => {
 module.exports = {
   createUser, updateUser, login, getCurrentUserMe,
 };
-
-/*
-// возвращает всех пользователей.  GET('/users', getUsers)
-const getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch(next);
-};
-*/

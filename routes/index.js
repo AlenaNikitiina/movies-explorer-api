@@ -5,7 +5,9 @@ const moviesRouter = require('./movies');
 const { createUser, login } = require('../controllers/users');
 const { siginValidator, sigupValidator } = require('../middlewares/routesValidation');
 const auth = require('../middlewares/auth');
+
 const NotFoundError = require('../errors/NotFoundError'); // 404
+const { errorMessage } = require('../utils/constans');
 
 // // Здесь роутинг :
 
@@ -21,7 +23,7 @@ router.use('/', usersRouter); // запускаем. передали ф сво�
 router.use('/', moviesRouter);
 // неизвестного маршрута
 router.use('*', (req, res, next) => {
-  next(new NotFoundError('Несуществующая страница.'));
+  next(new NotFoundError(errorMessage.NON_EXIST_PAGE));
 });
 
 module.exports = router;
