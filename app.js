@@ -40,6 +40,7 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use(handleErrors); // централизованный обработчик ошибок
 
+// mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
 // подключаемся к серверу mongo
 mongoose.connect(BD_ADDRESS) // адрес сервера
   .then(() => console.log('Успешное подключение к MongoDB'))
