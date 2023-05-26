@@ -1,10 +1,14 @@
 {
-  "name": "diploma",
+  "name": "diploma-movies-explorer-api",
   "author": "Alena Nikitina",
   "version": "0.1.0",
-  "description": "diploma project",
+  "description": "server for diploma",
   "main": "app.js",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlenaNikitiina/movies-explorer-api.git"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
