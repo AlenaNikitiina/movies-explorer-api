@@ -10,7 +10,6 @@ const { errorMessage } = require('../utils/constans');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// создаёт пользователя.  POST('/users', createUser) old
 // создаёт пользователя с переданными в теле email, password и name  POST /signup
 const createUser = (req, res, next) => {
   const {
@@ -32,9 +31,9 @@ const createUser = (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError(errorMessage.INCORRECT_MOVIE_DATA));
+        next(new BadRequestError(errorMessage.INCORRECT_USER_DATA));
       } else if (error.code === 11000 && error.name === 'MongoServerError') {
-        next(new ConflictError(errorMessage.MOVIE_CONFLICT));
+        next(new ConflictError(errorMessage.USER_CONFLICT));
       } else {
         next(error);
       }
@@ -43,7 +42,6 @@ const createUser = (req, res, next) => {
 
 // возвращает информацию о пользователе (email и имя).  GET /users/me
 const getCurrentUserMe = (req, res, next) => {
-  // console.log('getCurrentUserMe', req.user);
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError(errorMessage.USER_NOT_FOUND);
@@ -53,26 +51,6 @@ const getCurrentUserMe = (req, res, next) => {
     })
     .catch(next);
 };
-
-/* наверно не надо
-// возвращает пользователя по _id.  GET('/users/:id', getUser)
-const getUser = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(() => {
-      const error = new NotFoundError('Пользователь с некорректным id');
-      return error;
-    })
-    .then((user) => {
-      res.status(200).send(user);
-    })
-    .catch((error) => {
-      if (error instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Пользователь по указанному _id не найден.'));
-      } else {
-        next(error);
-      }
-    });
-}; */
 
 // обновляет информацию о пользователе (email и имя).  PATCH /users/me
 const updateUser = (req, res, next) => {
@@ -84,7 +62,6 @@ const updateUser = (req, res, next) => {
     })
     .then((user) => res.send(user))
     .catch((error) => {
-      // console.log("name error:", error.name, ", code:", error.statusCode);
       if (error instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(errorMessage.INCORRECT_DATA));
       } else {
