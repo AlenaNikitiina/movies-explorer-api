@@ -3,9 +3,8 @@ const jwt = require('jsonwebtoken'); // импортируем модуль json
 const mongoose = require('mongoose');
 
 const User = require('../models/user'); // модель
-const BadRequestError = require('../errors/BadRequestError'); // 400
-const NotFoundError = require('../errors/NotFoundError'); // 404
-const ConflictError = require('../errors/ConflictError'); // 409
+
+const { BadRequestError, NotFoundError, ConflictError } = require('../utils/constans'); // 400, 404, 409
 const { errorMessage } = require('../utils/constans');
 
 const { NODE_ENV, JWT_SECRET } = process.env;

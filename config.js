@@ -1,8 +1,6 @@
-/*
 const { PORT = 3000 } = process.env;
-const { SERVER_ADDRESS = 'mongodb://127.0.0.1/diploma' } = process.env;
+const { BD_ADDRESS = 'mongodb://127.0.0.1/bitfilmsdb' } = process.env;
 
 module.exports = {
-  PORT, SERVER_ADDRESS,
+  PORT, BD_ADDRESS,
 };
-*/

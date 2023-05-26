@@ -12,7 +12,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handleErrors');
 
 const { PORT = 3000 } = process.env;
-const { BD_ADDRESS } = process.env;
+// const { BD_ADDRESS } = process.env;
+// const { BD_ADDRESS } = require('./config');
 
 const router = require('./routes/index'); // тут все роуты
 
@@ -41,6 +42,7 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(handleErrors); // централизованный обработчик ошибок
 
 // mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
+
 // подключаемся к серверу mongo
 // mongoose.connect(BD_ADDRESS) // адрес сервера
 mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
