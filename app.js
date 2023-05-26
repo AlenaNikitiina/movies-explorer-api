@@ -42,7 +42,8 @@ app.use(handleErrors); // централизованный обработчик 
 
 // mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
 // подключаемся к серверу mongo
-mongoose.connect(BD_ADDRESS) // адрес сервера
+// mongoose.connect(BD_ADDRESS) // адрес сервера
+mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
   .then(() => console.log('Успешное подключение к MongoDB'))
   .catch((error) => console.error('Ошибка подключения:', error));
 
