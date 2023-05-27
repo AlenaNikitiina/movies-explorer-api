@@ -15,10 +15,10 @@ const { port, urlMongo } = require('./config');
 
 const { PORT = port, BD_ADDRESS = urlMongo } = process.env;
 
+//
 const router = require('./routes/index'); // тут все роуты
 
-// создаем приложение
-const app = express();
+const app = express(); // создаем приложение
 
 app.use(cors());
 app.use(helmet());
@@ -42,9 +42,8 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(handleErrors); // централизованный обработчик ошибок
 
 // подключаемся к серверу mongo
-
-// mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
-mongoose.connect(BD_ADDRESS, { useNewUrlParser: true }) // адрес сервера
+// mongoose.connect(BD_ADDRESS, { useNewUrlParser: true }) // адрес сервера
+mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
   .then(() => console.log('Успешное подключение к MongoDB'))
   .catch((error) => console.error('Ошибка подключения:', error));
 
