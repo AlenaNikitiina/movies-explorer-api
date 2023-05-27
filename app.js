@@ -11,9 +11,9 @@ const { errors } = require('celebrate'); // будет обрабатывать 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handleErrors');
 
-const { PORT = 3000 } = process.env;
-// const { BD_ADDRESS } = process.env;
-// const { BD_ADDRESS } = require('./config');
+const { port, urlMongo } = require('./config');
+
+const { PORT = port, BD_ADDRESS = urlMongo } = process.env;
 
 const router = require('./routes/index'); // тут все роуты
 
@@ -28,11 +28,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger); // подключаем логгер запросов
 
-/* app.get('/crash-test', () => {
+app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
-}); */
+});
 
 app.use(router); // Здесь роутинг всех
 
@@ -41,11 +41,10 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use(handleErrors); // централизованный обработчик ошибок
 
-// mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
-
 // подключаемся к серверу mongo
-// mongoose.connect(BD_ADDRESS) // адрес сервера
-mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
+
+// mongoose.connect('mongodb://127.0.0.1/bitfilmsdb')
+mongoose.connect(BD_ADDRESS, { useNewUrlParser: true }) // адрес сервера
   .then(() => console.log('Успешное подключение к MongoDB'))
   .catch((error) => console.error('Ошибка подключения:', error));
 
