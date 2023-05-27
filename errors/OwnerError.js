@@ -1,4 +1,4 @@
-const { OWNER_ERROR } = require('./errors_constants');
+const { OWNER_ERROR } = require('../utils/constans');
 
 class OwnerError extends Error {
   constructor(message) {
