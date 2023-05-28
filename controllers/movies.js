@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Movies = require('../models/movie'); // модель
 
-const { NotFoundError, BadRequestError, OwnerError } = require('../utils/constans'); // 404, 400, 403
+const NotFoundError = require('../errors/NotFoundError'); // 404
+const BadRequestError = require('../errors/BadRequestError'); // 400
+const OwnerError = require('../errors/OwnerError'); // 403
 const { errorMessage } = require('../utils/constans');
 
 // создаёт фильм.  POST /movies

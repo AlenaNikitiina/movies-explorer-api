@@ -42,11 +42,7 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(handleErrors); // централизованный обработчик ошибок
 
 // подключаемся к серверу mongo
-mongoose.connect(BD_ADDRESS, { useNewUrlParser: true }) // адрес сервера
-  .then(() => console.log('Успешное подключение к MongoDB'))
-  .catch((error) => console.error('Ошибка подключения:', error));
+mongoose.connect(BD_ADDRESS, { useNewUrlParser: true }); // адрес сервера
 
 //
-app.listen(PORT, () => {
-  console.log(`app listening on port: ${PORT}`);
-});
+app.listen(PORT);

@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 
 const User = require('../models/user'); // модель
 
-const { BadRequestError, NotFoundError, ConflictError } = require('../utils/constans'); // 400, 404, 409
-const { errorMessage } = require('../utils/constans');
+const BadRequestError = require('../errors/BadRequestError'); // 400
+const NotFoundError = require('../errors/NotFoundError'); // 404
+const ConflictError = require('../errors/ConflictError'); // 409
+const { errorMessage, DUPLICATE_KEY_ERROR } = require('../utils/constans');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -31,7 +33,7 @@ const createUser = (req, res, next) => {
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(errorMessage.INCORRECT_USER_DATA));
-      } else if (error.code === 11000 && error.name === 'MongoServerError') {
+      } else if (error.code === DUPLICATE_KEY_ERROR && error.name === 'MongoServerError') {
         next(new ConflictError(errorMessage.USER_CONFLICT));
       } else {
         next(error);
@@ -67,8 +69,8 @@ const updateUser = (req, res, next) => {
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(errorMessage.INCORRECT_DATA));
-      } else if (error.code === 11000 && error.name === 'MongoServerError') { // ??
-        next(new ConflictError(errorMessage.USER_CONFLICT)); // ??
+      } else if (error.code === DUPLICATE_KEY_ERROR) {
+        next(new ConflictError(errorMessage.USER_CONFLICT));
       } else {
         next(error);
       }

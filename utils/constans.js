@@ -1,4 +1,5 @@
 const URL_CHECK = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const DUPLICATE_KEY_ERROR = 11000;
 
 // код ошибки
 const BAD_REQUEST = 400;
@@ -29,6 +30,7 @@ const errorMessage = {
 
 module.exports = {
   URL_CHECK,
+  DUPLICATE_KEY_ERROR,
   errorMessage,
   BAD_REQUEST,
   INTERNAL_SERVERE_ERROR,
