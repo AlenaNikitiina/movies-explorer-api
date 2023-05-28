@@ -4,7 +4,7 @@ const { URL_CHECK } = require('../utils/constans');
 module.exports.sigupValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(),
+    password: Joi.string().required(),
     name: Joi.string().min(2).max(30).required(),
   }),
 });
@@ -12,7 +12,7 @@ module.exports.sigupValidator = celebrate({
 module.exports.siginValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(2),
+    password: Joi.string().required(),
   }),
 });
 

@@ -55,7 +55,11 @@ const getCurrentUserMe = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const { name, email } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, email },
+    { new: true, runValidators: true },
+  )
     .orFail(() => {
       throw new NotFoundError(errorMessage.ID_INCORRECT);
     })
@@ -63,6 +67,8 @@ const updateUser = (req, res, next) => {
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(errorMessage.INCORRECT_DATA));
+      } else if (error.code === 11000 && error.name === 'MongoServerError') { // ??
+        next(new ConflictError(errorMessage.USER_CONFLICT)); // ??
       } else {
         next(error);
       }

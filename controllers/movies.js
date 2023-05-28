@@ -48,7 +48,7 @@ const createMovie = (req, res, next) => {
 
 // возвращает все сохранённые текущим пользователем фильмы.  GET /movies
 const getMovies = (req, res, next) => {
-  Movies.find({})
+  Movies.find({ owner: req.user._id })
     .then((movies) => res.send(movies))
     .catch((error) => {
       next(error);
@@ -76,7 +76,7 @@ const deleteMovie = (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.CastError) {
-        next(new BadRequestError(errorMessage.MOVIE_NOT_FOUND));
+        next(new BadRequestError(errorMessage.INCORRECT_DATA));
       } else {
         next(error);
       }
