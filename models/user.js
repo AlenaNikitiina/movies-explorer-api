@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const UnauthorizedError = require('../errors/UnauthorizedError'); // 401
+const { errorMessage } = require('../utils/constans');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: 'Nik',
     require: true,
-    minLength: [2, 'Минимальная длина поля "name" - 2'],
+    minLength: 2,
     maxLength: 30,
   },
   email: {
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
       validator(v) {
         return validator.isEmail(v);
       },
-      message: 'Неправильный формат почты',
+      message: errorMessage.INCORRECT_EMAIL_FORMAT,
     },
   },
   password: {
@@ -37,13 +37,14 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new UnauthorizedError('Неправильные почта или пароль')); // не нашёлся email— отклоняем промис
+        // не нашёлся email— отклоняем промис
+        return Promise.reject(new UnauthorizedError(errorMessage.INCORRECT_INPUT_DATA));
       }
 
       return bcrypt.compare(password, user.password) // нашёлся — сравниваем хеши
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new UnauthorizedError('Неправильные почта или пароль')); // 401
+            return Promise.reject(new UnauthorizedError(errorMessage.INCORRECT_INPUT_DATA)); // 401
           }
 
           return user; // теперь user доступен
