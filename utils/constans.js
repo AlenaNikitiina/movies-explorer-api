@@ -13,10 +13,8 @@ const UNAUTHORIZED_ERROR = 401;
 const errorMessage = {
   INCORRECT_MOVIE_DATA: 'Переданы некорректные данные при создании фильма.',
   INCORRECT_USER_DATA: 'Переданы некорректные данные при создании пользователя.',
-  MOVIE_CONFLICT: 'Фильм с такими данными уже существует.',
   USER_CONFLICT: 'Пользователь с такими данными уже существует.',
   USER_NOT_FOUND: 'Пользователь не найден.',
-  ID_INCORRECT: 'Пользователь с некорректным id.',
   INCORRECT_DATA: 'Переданы некорректные данные.',
   MOVIE_NOT_FOUND: 'Фильм с указанным _id не найден.',
   UNABLE_TO_DELETE: 'Невозможно удалить чужой фильм',

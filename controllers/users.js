@@ -63,7 +63,7 @@ const updateUser = (req, res, next) => {
     { new: true, runValidators: true },
   )
     .orFail(() => {
-      throw new NotFoundError(errorMessage.ID_INCORRECT);
+      throw new NotFoundError(errorMessage.USER_NOT_FOUND); //
     })
     .then((user) => res.send(user))
     .catch((error) => {
